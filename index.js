@@ -66,15 +66,16 @@ app.put("/api/v1/category/:id",(request,response)=>{
       });
   });
 
-  // display product list with category
-  app.get("/api/v1/productList",(request,response)=>{
-    con.query("SELECT * FROM product NATURAL JOIN category",(err,result)=>{
-        if(err){
-            throw err;
-        }
-        response.send(result);
-    });
-  });
+  // // display product list with category
+  // app.get("/api/v1/productList",(request,response)=>{
+  //   con.query("SELECT * FROM product NATURAL JOIN category",(err,result)=>{
+  //       if(err){
+  //           throw err;
+  //       }
+  //       response.send(result);
+  //   });
+  // });
+
 
   // display product
 //   app.get('/api/v1/products',(request,response)=>{
@@ -141,6 +142,18 @@ app.get('/api/v1/category',(request,response)=>{
       }
   })
 })
+
+//? display product list with category
+app.get("/api/v1/productList",(request,response)=>{
+  con.query("SELECT * FROM product NATURAL JOIN category",(error,productslist)=>{
+    if(error){
+      console.error("Error fetching total count of products: ", error);
+      response.status(500).json({ error: "Failed to fetch products" });
+    }
+    const totalCount = productslist.length;
+    response.status(200).json({ productslist: productslist, total: totalCount });;
+  });
+});
 
 // display perticular category by id
 app.get('/api/v1/products/:id',(request,response)=>{
