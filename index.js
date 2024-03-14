@@ -144,14 +144,14 @@ app.get('/api/v1/category',(request,response)=>{
 })
 
 //? display product list with category
-app.get("/api/v1/productList",(request,response)=>{
-  con.query("SELECT * FROM product NATURAL JOIN category",(error,productslist)=>{
+app.get("/api/v1/productsdetails",(request,response)=>{
+  con.query("SELECT * FROM product NATURAL JOIN category",(error,productsdetails)=>{
     if(error){
       console.error("Error fetching total count of products: ", error);
       response.status(500).json({ error: "Failed to fetch products" });
     }
-    const totalCount = productslist.length;
-    response.status(200).json({ productslist: productslist, total: totalCount });;
+    const totalCount = productsdetails.length;
+    response.status(200).json({productsdetails, total: totalCount });;
   });
 });
 
