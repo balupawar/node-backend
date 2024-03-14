@@ -77,17 +77,56 @@ app.put("/api/v1/category/:id",(request,response)=>{
   });
 
   // display product
+//   app.get('/api/v1/products',(request,response)=>{
+//     // display all the category data
+//     con.query("SELECT * FROM product",(error,result)=>{
+//         if(error){
+//             response.send(error);
+//         }
+//         else{
+//             response.send(result);
+//         }
+//     });
+// });
+
+// app.get('/api/v1/products',(request,response)=>{
+//   // display all the category data
+//   con.query("SELECT * FROM product",(error,result)=>{
+//     const page = parseInt(request.query.page)
+//     const limit = parseInt(request.query.limit)
+
+//     const startIndex = (page-1) * limit;
+//     const endIndex = page * limit
+//     const results = {}
+//     // results.next = {
+//     //   page : page + 1,
+//     //   limit: limit
+//     // }
+//     // results.previous = {
+//     //   page : page - 1,
+//     //   limit: limit
+//     // }
+
+//     results.results = result.slice(startIndex,endIndex);
+    
+//     response.json(results)
+//   });
+// });
+
+
+// display product
   app.get('/api/v1/products',(request,response)=>{
     // display all the category data
-    con.query("SELECT * FROM product",(error,result)=>{
+    con.query("SELECT * FROM product",(error,products)=>{
         if(error){
-            response.send(error);
+          console.error("Error fetching total count of products: ", error);
+          response.status(500).json({ error: "Failed to fetch products" });
         }
-        else{
-            response.send(result);
-        }
+        const totalCount = products.length;
+        response.status(200).json({ products, total: totalCount });
     });
 });
+
 
 // display perticular category by id
 app.get('/api/v1/products/:id',(request,response)=>{
