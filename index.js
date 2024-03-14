@@ -8,19 +8,19 @@ app.use(express.json());
 app.use(cors())
 
 //! crud operation for category
-//display all category
-app.get('/api/v1/category',(request,response)=>{
-    // display all the category data
-    con.query("SELECT * FROM category",(error,result)=>{
-        if(error){
-            response.send(error);
-        }
-        else{
-            response.send(result);
-        }
-    })
-})
-
+// //display all category
+// app.get('/api/v1/category',(request,response)=>{
+//     // display all the category data
+//     con.query("SELECT * FROM category",(error,result)=>{
+//         if(error){
+//             response.send(error);
+//         }
+//         else{
+//             response.send(result);
+//         }
+//     })
+// })
+/**----------------------------------------------------------------------------- */
 // display perticular category by id
 app.get('/api/v1/category/:id',(request,response)=>{
     // const id = request.params.id;
@@ -114,7 +114,7 @@ app.put("/api/v1/category/:id",(request,response)=>{
 // });
 
 
-// display product
+//? display product
   app.get('/api/v1/products',(request,response)=>{
     // display all the category data
     con.query("SELECT * FROM product",(error,products)=>{
@@ -127,6 +127,20 @@ app.put("/api/v1/category/:id",(request,response)=>{
     });
 });
 
+//? display all category
+app.get('/api/v1/category',(request,response)=>{
+  // display all the category data
+  con.query("SELECT * FROM category",(error,category)=>{
+      if(error){
+        console.error("Error fetching total count of products: ", error);
+        response.status(500).json({ error: "Failed to fetch products" });
+      }
+      else{
+        const totalCount = category.length;
+        response.status(200).json({ category, total: totalCount });
+      }
+  })
+})
 
 // display perticular category by id
 app.get('/api/v1/products/:id',(request,response)=>{
